@@ -1,0 +1,41 @@
+\chapter{Module de lecture des fichiers TSP}
+
+Afin de récupérer des matrices différentes, il est nécessaire d'implémenter un module pour lire les fichiers TSP. 
+
+\section{Algorithme}
+
+\begin{algorithm}
+\caption{Algorithme pour lire un fichier}
+\begin{algorithmic}
+
+\Function{recupererMatrice}{ref nomFichier : chaîne de caractères}
+
+\State $file \gets \Call{ouvrirFichier}{nomFichier}$
+\State $buffer \gets \Call{lireFichier}{}$
+\While {$buffer != "DIMENSION"$}
+	\State $buffer \gets \Call{lireFichier}{}$
+\EndWhile
+
+\State $dimension \gets \Call{lireProchaineValeur}{}$
+
+\While{$buffer != "EDGE\_WEIGHT\_SECTION"$} 
+	\State $buffer \gets \Call{lireFichier}{}$
+\EndWhile
+
+\State $matrice \gets \Call{creerMatrice}{dimension}$
+
+\While{$buffer != "DISPLAY\_DATA\_SECTION"$}
+
+	\Call{ajouterDansMatrice}{buffer}
+\EndWhile
+
+\Return $matrice$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\section{Utilisation}
+
+Pour utiliser le module, il suffit donc de faire passer le chemin du fichier à ouvrir à la fonction \textit{fopen()}. 
+De plus, une autre fonction est disponible dans le module, et qui permet de lire les coordonnées des villes placées à la fin du fichier. Ceci est notamment utile pour l'interface graphique qui a besoin des coordonnées des villes pour fonctionner.
+

@@ -1,0 +1,80 @@
+#include <stdbool.h>
+#include <malloc.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#include <Matrix.h>
+#include <NearestNeighbour.h>
+
+
+//Cette fonction va parcourrir la matrice des distances, afin de trouver le chemin Nearest Neighbour:
+//On recupère la longueur de la matrice en paramètre, pour creer un tableau simple de même longeur où on rentrera les villes parcourues, au fur et à mesures
+//On l'initialise ensuite à -1 (ne pas mettre 0, car pourrait être confondu avec une ville)
+//Ensuite, on parcours le tableau, de manière à trouver la disatnce la plus courte entre 2 indices/villes i et j/colonne, et de telle sorte que l'on ne repasse pas 2 fois par la même ville
+//La ville j trouvée est alors intégrée dans le tableau, et on recommence ainsi, j devient i, jusqu'à être passée par toutes les villes (tableau complet).
+
+/*Descrption: Cette fonction va parcourrir une matrice, en partant de la 1ère ville, et en choisissant toujours la ville la plus proche, à condition que celle-ci ne soit pas une ville déjà parcourue. Les villes parcourues seront alors inscrites dans un tableau.
+Paramètre: Prend en paramètre une matrice de double, qui est la matrice des distances entre les villes.
+Retour: Elle renvoie un tableau de double,contenant l'ordre des villes à parcourrir.
+*/
+double* parcoursVoy(Matrix tab_distance){
+  int length_tab_distance=getMatrixLength(tab_distance);
+  double* tab_chemin= malloc(sizeof(double)*length_tab_distance);
+  initMoinsUn(tab_chemin,length_tab_distance); //initialisation tableau des villes parcourues
+  int i=0;
+  int indice_tab_chemin=1;
+  while (tab_chemin[length_tab_distance-1]==-1){ //tant que l'on a pas visité toutes les villes
+    double distance_min=2*length_tab_distance;
+    int indiceMin=0;
+    for (int colonne=0; colonne<length_tab_distance; colonne++){
+      if (getMatrixValue(tab_distance,i,colonne)<distance_min && i!=colonne 
+        && !testAppartenance(tab_chemin,colonne+1,indice_tab_chemin)){
+        distance_min=getMatrixValue(tab_distance,i,colonne);
+        indiceMin=colonne;
+      }
+    }
+    tab_chemin[indice_tab_chemin]=indiceMin+1;
+    indice_tab_chemin++;
+    i=indiceMin;
+  }
+  return tab_chemin;
+}
+
+//Initialise un tableau de double à -1 (pour ne pas confondre avec la ville 0)
+void initMoinsUn(double* t, int longueur_tableau ){
+  t[0]=1;
+  for (int i=1; i<longueur_tableau; i++) {
+    t[i]=-1;
+  }
+}
+
+//Teste l'apartenance d'un entier x, à un tableau de double t
+bool testAppartenance(double *t, double x, int longueur_tableau){
+  for (int i=0; i<longueur_tableau+1; i++){
+    if (t[i]==x)
+      return true;
+  }
+  return false;
+}
+
+//Affiche, caractère pas caractère, un tableau de double
+void afficher(double* t,int longueur_tableau){
+  for (int i=0; i<longueur_tableau; i++){
+    printf("La %de ville visitée est la %lf.\n",i,t[i]);
+  }
+}
+
+//Teste l'égalite entre 2 tableaux de doubles
+bool egalite(double *t1,double * t2){
+  int size1=sizeof(t1)/sizeof(double);
+  int size2=sizeof(t2)/sizeof(double);
+  if (size1==size2){
+    for (int i=0; i<=size1; i++){
+      if (t1[i]!=t2[i])
+	return false;
+    }
+    return true;
+  }
+  return false;
+}

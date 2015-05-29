@@ -1,0 +1,188 @@
+######################
+## How to Use Git ? ##
+######################
+
+## Initialisation de Git sur une nouvelle machine
+
+# Synchroniser son compte GitHub
+
+Cette étape permet de faire correspondre son compte GitHub avec sa machine
+	afin que les changements et autres commits apparaissent dans les
+	stats du profil GitHub.
+
+Pour celà, il suffit de faire :
+	> git config --global user.email "votre.email@ducompteGitHub.ici"
+
+## Fonctions de base ##
+
+# Récupérer le dépôt
+
+Pour celà, on utilise : 
+	> git clone <url_du_dépôt>
+Git va alors créer un nouveau répertoire contenant tous les fichiers contenus
+	dans le projet.
+
+# Ajouter un nouveau fichier
+
+Il faut commencer par :
+	> git add <fichier>
+Le fichier est alors ajouté pour la prochaine mise à jour du projet.
+Une fois tous les nouveaux fichiers ajoutés, il est nécessaire d'officialiser 
+	la prochaine mise à jour avec :
+	> git commit -m "message pour dire ce que j'ajoute ou je modifie"
+
+Enfin, pour ajouter définitivevement la mise à jour au dépôt, on finit par un :
+	> git push origin master
+
+/?\ : pour plus de détails sur la commande push, veuillez consulter les informations
+	à propos du système de branches de Git.
+
+# Mettre à jour un fichier
+
+Pour mettre à jour un fichier existant déjà dans le dépôt :
+	> git commit -a -m "message de mise à jour"
+Par défaut, la commande commit ne met à jour que les nouveaux fichiers.
+Avec l'option -a (all), Git met à jours TOUS les fichiers.
+Enfin, il suffit à nouveau de "pusher" :
+	> git push origin master
+
+# Récupérer les modifications
+
+Pour ajouter les dernières modifications au répertoire local :
+	> git pull
+
+# Supprimer un fichier
+
+Pour supprimer un fichier :
+	> git rm <chemin_du_fichier>
+La commande supprime le fichier dans le dépôt.
+Elle marche donc même si le fichier n'est plus présent dans votre répertoire local
+	mais qu'il existe encore sur le dépôt distant.
+
+## Bien utiliser Git ##
+
+# Comment développer avec Git ?
+
+Utiliser Git est très simple : dés que l'on a effectué une modification un minimum
+	conséquente, il faut effectuer un commit pour avoir une trace de nos
+	modifications et en quoi elles consistent.
+Par "conséquent", j'entends qu'il est inutile de commit à chaque modification d'une
+	ligne ou autre. Le commit s'effectue après l'ajout d'une fonction, la 
+	correction d'un bug, l'ajout d'un répertoire de fichiers, etc.
+Après une phase de travail (exemple : entre deux pauses), il faut push les commits
+	que l'on a réalisés.
+
+/!\ : il peut être nécessaire de push beaucoup plus souvent en fonction des 
+	besoins de vos collègues. Si l'un d'entre eux attend une fonction au plus
+	vite, effectuer un push dés que le développement de cette fonction
+	s'achève est une excellent idée.
+
+# origin ? master ?
+
+origin est le serveur sur lequel le dépôt d'origine se situe.
+	Dans notre cas, il s'agit du serveur de GitHub.
+master est la branche principale du projet.
+Le système de branches est un outil très puissant. 
+Une branche est une version du programme. Par exemple, imaginons que j'implémente
+	une nouvelle fonctionnalité complètement buggué du programme.
+Pour éviter que l'intégralité du programme ne soit plus utilisable (car je viens de
+	rajouter une mise à jour qui bug le programme), je vais créer une nouvelle
+	branche. Par exemple, la branche dev.
+Tant que ma fonctionnalité n'est pas finie et testée, je vais envoyer toutes mes
+	modifications sur cette branche.
+Une fois la fonctionnalité finie, la branche dev et la branche master va être
+	fusionnée, et les utilisateurs vont directement passer du programme
+	originel au programme avec la nouvelle fonctionnalité.
+Pour mieux comprendre : http://fr.openclassrooms.com/informatique/cours/gerez-vos-codes-source-avec-git/travailler-avec-des-branches
+
+# Consulter les logs
+
+	> git log
+
+# Voir les différences entre le répertoire local et le dépôt
+
+	> git diff
+
+# Commit avec des fichiers spécifiques
+
+	> git commit <fichier_1> <fichier_2> ... <fichier_n> -m "message"
+
+# Annuler un commit publié et restaurer les fichiers avant le commit
+
+Si un mauvais commit a été effectué sur le dépôt, il est nécessaire de créer
+	un nouveau commit qui va annuler l'ancien.
+Pour celà, il faut d'abord récupérer le numéro du commit avec :
+	> git log
+/!\ Il n'est pas nécessaire de récupérer TOUTE l'id du commit. Seuls les 5 premiers
+	chiffres sont nécessaires s'ils sont uniques.
+
+Une fois l'id récupérée, il suffit alors d'effectuer :
+	> git revert <id_du_commit_a_annuler>
+Puis de pusher l'annulation :
+	> git push origin master
+
+# Gérer un projet avec des branches
+
+Pour créer une nouvelle branche, il suffit de faire :
+	> git branch <nom_de_la_nouvelle_branche>
+
+Pour ensuite travailler dessus :
+	> git checkout <nom_de_la_branche>
+
+Après un checkout, les nouveaux commit impacteront la nouvelle branche.
+La branche master est à nouveau modifiable après un : 
+	> git checkout master
+
+L'ajout et la modification des fichiers fonctionnent exactement comme avec la branche
+	principale, excepté que pour pusher les changements de la nouvelle branche, 
+	il faut faire :
+	> git push origin <nom_de_la_branche>
+
+# Récupérer une branche depuis le serveur
+
+Pour voir les branches que le serveur connaît :
+	> git branch -r
+	
+Une fois la branche que l'on souhaite récupérer trouvée, il suffit de faire :
+	> git branch --track <nom_de_la_branche_sur_votre_pc> <nom_branche_sur_serveur>
+
+Une branche est alors créée sur votre ordinateur qui "suivra" la branche du serveur.
+Pour passer sur la nouvelle branche, il suffit alors de faire :
+	> git checkout <nom_branche_sur_serveur>
+
+/!\ PENSEZ A COMMIT VOTRE TRAVAIL AVANT DE CHANGER DE BRANCHE !
+
+# Push sur une branche distante
+
+Pour pusher sur une branche distante, il suffit de faire :
+	> git push origin <branche_locale>:<branche_sur_serveur>
+	
+Par exemple, si votre branche locale est "dev" et la branche du serveur est "FonctionInDev" :
+	> git push origin dev:FonctionInDev
+
++ Fusionner des branches
+
+Une fois que la fonctionnalité voulue est finalisée sur la nouvelle branche,
+	il faut fusionner ces changements avec la branche principale.
+Celà va permettre d'ajouter la nouvelle fonctionnalité au projet tout en gardant
+	les éventuelles modifications de la branche master.
+Tout d'abord, il faut se replacer sur la branche master :
+	> git checkout master
+Puis il faut fusionner cette branche avec la branche <nouvelle_branche> :
+	> git merge <nouvelle_branche>
+
+Une fois que la fusion a été effectuée, la branche de développement n'est plus
+	utile. Pour la supprimer, il faut utiliser :
+	> git branch -d <nouvelle_branche>
+
+/!\ Pour supprimer une branche même si les modifications n'ont pas été ajoutées
+	à la branche principale, il faut utiliser l'option -D.
+
+/!\ Avant de changer de branche, il est nécessaire de sauvegarder les changements.
+	Au lieu de les sauvegarder avec un commit, il est possible de faire :
+	> git stash
+	avant le changement de branche, puis, une fois de retour sur la branche :
+	> git stash apply
+
+## POUR PLUS D'INFORMATIONS ##
+http://fr.openclassrooms.com/informatique/cours/gerez-vos-codes-source-avec-git

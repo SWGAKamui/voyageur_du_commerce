@@ -1,0 +1,38 @@
+\chapter{Interface graphique}
+
+L'interface graphique de l'application permet de visualiser le résultat d'un des précédents algorithmes de recherche de chemin. 
+
+\section{Librairies utilisées}
+
+La base de l'interface se compose des librairies suivantes : 
+\begin{itemize}
+	\item \href{http://www.libsdl.org/download-2.0.php}{SDL2} - C'est une librairie multimédia qui permet d'utiliser facilement les différentes interfaces d'un ordinateur (contrôleurs, interfaces vidéo, interfaces son, etc.). La particularité de cette librairie est qu'elle s'adapte en fonction du système d'exploitation et des drivers disponibles sur les machines, ce qui en fait une librairie ultra-portable.
+	\item \href{http://www.libsdl.org/projects/SDL_ttf/}{SDL2-TTF} - Il s'agit d'une extension de SDL2 qui permet d'utiliser des polices d'écritures en \textit{.ttf} afin d'afficher des caractères, chose que la librairie originelle ne permet pas.
+	\item \href{http://www.freetype.org/index.html}{FreeType} - C'est le prérequis de la librairie SDL2-TTF. Il s'agit d'une librairie permettant l'usage des fichier \textit{.ttf}.
+\end{itemize} 
+
+\section{Fonctionnement}
+
+Dans ce paragraphe, seul le fonctionnement général de l'interface graphique est expliqué.
+
+\par\bigskip
+Le premier module de l'interface est le module fusionné avec \textbf{TSPSolver}, c'est-à-dire le programme principal. Il s'agit d'un module permettant d'initialiser les composants graphiques (fenêtres, moteurs de rendus, contrôleurs, etc.) et de tenir en vie la fenêtre de l'interface graphique. Une fois que la fenêtre est fermée, le module finit par détruire les composants devenus inutiles.
+
+Le deuxième module du programme est le module \textbf{Drawer}. Comme son nom l'indique, ce module possède toutes les fonctions permettant de dessiner des rectangles, des caractères, ou encore des lignes. Il contient aussi la fonction de rafraîchissement de l'interface graphique.
+
+Le troisième module est le module \textbf{TSPDrawer}. Il s'agit d'une surcouche du module \textbf{Drawer} qui permet de dessiner des villes et des chemins. Il contient un système de sauvegarde des villes en mémoire, ainsi des fonctions de mises à l'échelle des coordonnées des villes par rapport à la taille de la fenêtre.
+
+Le quatrième module est \textbf{Input}, qui est actuellement inutile. Il est prévu pour gérer des entrées au clavier afin d'effectuer divers commandes dans une utilisation future.
+
+Le programme suit le fonctionnement suivant :
+\begin{itemize}
+	\item Initialisation des composants graphiques
+	\item Lecture des informations sur les villes et la route à dessiner
+	\item Passage des contrôleurs (graphiques, etc.) aux différents modules
+	\item Affichage de la fenêtre et de la route TANT que celle-ci n'est pas fermée
+	\item Suppression des composants graphiques
+\end{itemize}
+
+\section{Améliorations possibles}
+
+Les améliorations possibles sont nombreuses : l'interface graphique n'est que très primaire. Il peut être possible d'ajouter une fonction de zoom/dézoom sur le plan, de déplacement sur le plan, la modification des villes en points dont les informations apparaîtraient lors du survol de la souris, ou encore du changement d'algorithme utilisé par entrée au clavier.

@@ -1,0 +1,105 @@
+\chapter{Algorithme exact par recherche exhaustive - \textit{Bruteforce}}
+
+Cet algorithme doit permettre de trouver le chemin le plus optimisé en testant toutes les chemins possibles. 
+
+\section{Algorithme}
+
+\begin{algorithm}
+\caption{Algorithme par \textit{Bruteforce}}
+\begin{algorithmic}
+
+
+\Function{trouverRouteOptimale}{ref route : matrice [0...nbVilles] d'entiers, ref nbPointsRestant : entier}
+
+\State $poidsMinimal \gets 0$
+\State $poids \gets 0$ 
+
+\If {$nbPointsRestant == 0$}
+	\State $poids \gets \Call{calculerPoidsRoute}{route}$
+	\If {$poidsMinimal > poids$}
+		\State $poidsMinimal \gets poids$
+		\Call{stockerRouteOptimal}{route}
+	\EndIf
+\Else
+	\For{$i\in[0...nbVilles]$}
+		\If {$!\Call{estDansRoute}{route, i}$}
+			\State \Call{ajouterDansRoute}{route, i}
+			\State \Call{trouverRouteOptimale}{route, nbPointsRestant -1}
+			\State \Call{supprimerDansRoute}{route, i}
+		\EndIf
+	\EndFor
+\EndIf
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+L'explication est faite en prenant 10 villes (ville 0, ville 1, ..., ville 9).
+
+Initialement, la fonction est appelée avec la ville 0 comme première ville.
+\par\bigskip
+L'algorithme commence par remplir un tableau avec les entiers 0,1,2,3,...,9 (première série d'appel récursif). Le 10e appel récursif va calculer le poids, puis quitter la fonction. Le 9e appel supprime alors la ville 9 de la route, sort de la boucle et termine l'appel. Le 8e appel supprime la ville 8, puis avance dans la boucle et ajoute la ville 9 dans la route (qui est du coup 0 1 2 3 4 5 6 7 9). Un 9e appel est à nouveau effectuée, et ajoute la seule ville non présente, c'est-à-dire la ville 8. La route est alors 0 1 2 3 4 5 6 7 9 8.
+\par\bigskip
+
+
+% Page 2
+\newpage
+
+Les 10 premières routes calculées sont :
+\begin{enumerate}
+	\item 0-1-2-3-4-5-6-7-8-9
+	\item 0-1-2-3-4-5-6-7-9-8
+	\item 0-1-2-3-4-5-6-8-7-9
+	\item 0-1-2-3-4-5-6-8-9-7
+	\item 0-1-2-3-4-5-6-9-7-8
+	\item 0-1-2-3-4-5-6-9-8-7
+	\item 0-1-2-3-4-5-7-6-8-9
+	\item 0-1-2-3-4-5-7-6-9-8
+	\item 0-1-2-3-4-5-7-8-6-9
+	\item 0-1-2-3-4-5-7-8-9-6
+\end{enumerate}
+
+\par\bigskip
+Le nombre de route calculée est de :
+\begin{equation}
+   nbRoutes(x) = (x-1)!
+\end{equation}
+Dans notre cas de 10 villes, on trouve :
+\begin{equation}
+   nbRoutes(10) = 9! = 362880
+\end{equation}
+
+\section{Code}
+
+L'implémentation de l'algorithme se concentre sur les fonctions \textit{searchOptimalPath()} et \textit{calcPathByRecursivity()}.
+Elle est disponible à l'annexe D.
+
+Quelques petites choses sont à noter :
+\begin{itemize}
+	\item L'implémentation utilise une unique route de test, puis copie la route lorsque cette dernière est optimale. Cela évite de polluer la mémoire.
+	\item Le nombre de villes restantes (\textit{nbRemainingPoints}) permet de calculer la place de la ville à ajouter/supprimer dans la route.
+	\item La variable \textit{pathSize} est une variable globale, car elle est utilisée dans de nombreuses fonctions et n'est modifiée que lorsqu'on souhaite calculer à nouveau la ou les routes optimales.
+\end{itemize}
+
+\section{Fonctions ajoutées lors de l'implémentation}
+
+Pour une implémentation correcte, il a été nécessaire d'ajouter plusieurs fonctions pour gérer le stockage des routes optimales, ainsi que des fonctions pour voir et modifier des tableaux.
+
+\subsection{Stockage des routes optimales}
+
+Le stockage des routes s'effectue via un tableau de tableaux. Le comportement est similaire à une pile : lorsqu'une route optimale est trouvée, la route est ajoutée à la pile. Cependant, quand une route plus optimale est trouvée, la pile est alors vidée, puis on ajoute la nouvelle route optimale.
+Pour économiser de l'espace mémoire, les routes supprimées de la pile sont libérées.
+
+\subsection{Routes et tableaux}
+
+Dans l'implémentation, les routes sont des tableaux d'entiers. L'utilisation de ces routes nécessite donc d'avoir quelques fonctions pour manipuler les tableaux. Dans notre cas, il faut savoir si un entier est présent dans un tableau (\textit{isInArray()}) et voir les entiers dans le tableau (\textit{showArray}).
+
+\section{Test du programme}
+
+Si le programme fonctionne correctement, le poids optimal pour la matrice de test de 10 points est de 42. Pour tester ce fonctionnement, un simple \textit{if ... else ...} suffit.
+
+\lstset{style=customc}
+\lstinputlisting[caption=TestBruteforce.c - Lignes 33 à 36, firstline=33, lastline= 36]{/home/amolith/Edd/Projet/Git/Edd_project/Bruteforce/TestBruteforce.c}
+
+
+
+

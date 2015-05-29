@@ -1,0 +1,51 @@
+\chapter{Compilation - Installation}
+
+Pour la compilation et l'installation du programme, nous utilisons \textit{Make} avec des \textit{Makefiles}.
+
+\section{Propriétés de \textit{Make}}
+
+\textit{Make} est un programme qui permet de compiler et de générer les exécutables du programme. Pour cela, il suffit de faire un simple \textbf{make} dans un terminal.
+
+Un \textit{Makefile} générique, mis à la racine du projet, permet l'exécution des différents \textit{Makefiles} du projet pour simplifier la compilation et la génération d'exécutables.
+
+Un des avantages de \textit{Make} est qu'une étape est re-réalisée que si cela est nécessaire. Par exemple, si on modifie un seul fichier dans le projet, il n'est pas nécessaire de recompiler l'intégralité du projet, mais seulement les parties concernant ce fichier.
+
+\section{Génération automatique et installation}
+
+\textit{Cmake} est un outil permettant de générer les \textit{Makefiles} automatiquement. A partir de fichier \textit{CMakeLists.txt}, \textit{Cmake} va "construire" les fichiers d'installation du programme.
+Une fois les fichiers construits, il est nécessaire d'utiliser \textit{Make} afin de compiler les fichiers nécessaire, puis d'installer les exécutables. 
+La compilation et l'installation est donc réalisée en 3 étapes.
+
+\section{Automatisation des tests}
+
+\textit{Cmake} peut aussi compiler et exécuter des programmes de tests. Pour celà, on construit normalement les exécutables de tests dans les différents modules du programmes, puis on ajoute une ligne dans le \textit{CMakeLists.txt} placé à la racine du projet demandant l'exécution des tests spécifiés. 
+L'étape de test est optionnelle, et s'effectue via la commande suivante : \textbf{make check}.
+Le résultat est le suivant :
+\begin{quotation}
+
+\begin{tabbing}
+\hspace{2cm}\=\hspace{2cm}\=\kill
+\$ make check\\
+ \\
+Test project /home/amolith/Edd/Projet/Git/Edd\_project/build\\
+\> Start 1: TestBruteforce\\
+1/4 Test \#1: TestBruteforce ...................   Passed    0.24 sec\\
+\> Start 2: TestMatrix\\
+2/4 Test \#2: TestMatrix .......................   Passed    0.00 sec\\
+\> Start 3: TestNearestNeighbour\\
+3/4 Test \#3: TestNearestNeighbour .............   Passed    0.00 sec\\
+\> Start 4: TestMST\\
+4/4 Test \#4: TestMST ..........................   Passed    0.00 sec\\
+ \\
+100\% tests passed, 0 tests failed out of 4
+\end{tabbing}
+
+\end{quotation}
+
+\section{Tests de mémoire et de temps}
+
+Afin de vérifier rapidement si les modules ne contiennent pas de fuites mémoire ou s'ils sont rapides, deux commandes ont été rajoutées :
+\begin{itemize}
+	\item \textbf{make memcheck} : vérifie la mémoire sur les tests
+	\item \textbf{make speedcheck} : vérifie la rapidité sur le test du Bruteforce
+\end{itemize}

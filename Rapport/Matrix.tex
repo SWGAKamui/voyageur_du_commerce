@@ -1,0 +1,36 @@
+\chapter{Modélisation de matrice - Module \textit{Matrix}}
+
+Le module Matrix permet de disposer d'une structure de données émulant une matrice. Comme toute structure de données, elle nécessite des fonctions élémentaires :
+
+\begin{enumerate}
+	\item Créer la structure (\textit{create} et \textit{init})
+	\item Détruire la structure (\textit{destruct})
+	\item Modifier une valeur (\textit{setter})
+	\item Accéder à une valeur (\textit{getter})
+\end{enumerate}
+
+\section{Composition de \textit{Matrix}}
+
+\textit{Matrix} se compose seulement d'un tableau à deux dimensions (matrice) et d'un entier (taille de la matrice).
+
+\lstset{style=customc}
+\lstinputlisting[caption=Matrix.c - Lignes 10 à 13, firstline=10, lastline=13]{/home/amolith/Edd/Projet/Git/Edd_project/Matrix/Matrix.c}
+
+\section{Initialisation des valeurs de \textit{Matrix}}
+
+L'initialisation des valeurs est possible de deux façons :
+\begin{itemize}
+	\item On initialise les valeurs une à une via \textit{setMatrixValue()}
+	\item On initialise les valeurs à partir d'une matrice statique via \textit{setMatrixArray()}
+\end{itemize}
+
+Dans le deuxième cas, la solution trouvée actuellement en vigueur est de transtyper la matrice statique en \textit{double*}, et de parcourir la matrice comme un tableau à une dimension. Cela est possible car une matrice statique est stockée en mémoire de façon continue. 
+L'ancienne solution cherchait à faire passer la matrice via un \textit{double**}, cependant, il était impossible de récupérer la deuxième dimension du tableau à cause d'une erreur inconnue : le passage vers un pointeur \textit{double**} "détruisait" la deuxième dimension en l'initialisant à 0. Il n'y a donc plus de possibilités de récupérer les valeurs.
+
+\section{Test de \textit{Matrix}}
+
+Pour vérifier l'intégrité des résultats du module, il est nécessaire de tester le module Matrix.
+
+D'abord, il faut tester si une Matrix est créée et détruite correctement, puis si les différents getters et setters marchent correctement. Pour cela, on effectue un premier test en injectant des valeurs dans une Matrix et on vérifie que les valeurs soient les bonnes, puis on injecte une matrice et on vérifie que les cases correspondent.
+
+Le code est disponible à l'annexe B.

@@ -1,0 +1,28 @@
+\chapter{Intégration des modules - TSPSolver}
+
+Tous les modules sont à présent fonctionnels. Cependant, il reste une tâche à effectuer : unir tous les modules dans un unique programme.
+
+\section{Correction des précédents modules}
+
+La première chose à faire a été de faire créer des librairies par chacun des modules développés jusqu'à présent. Pour celà, une simple modification des fichiers \textit{CMakeLists.txt} a corrigé le problème.
+
+De plus, certaines fonctions possédaient les mêmes noms, ce qui n'est pas possible en C. Le cas le plus notable est le module \textbf{BranchAndBound} et le module \textbf{Bruteforce} qui sont semblables à quelques lignes près.
+
+Enfin, il a fallut réaliser quelques modifications afin que tous les modules implémentant un algorithme de recherche renvoie une route au même format (c'est-à-dire actuellement un \textit{double*}).
+
+\section{Passage des paramètres}
+
+Le plus important était de savoir comment pouvait-on effectuer 2 algorithmes différents à partir d'une même commande. Pour cela, la librairie GNU possède un programme nommée \textbf{getopt}, permettant de récupérer les différentes options passées à un programme en paramètre.
+
+Les options sont configurées comme cela :
+\begin{itemize}
+	\item \textbf{-a} : permet de choisir l'algorithme à utiliser. 0 correspond à Nearest Neighbour, 1 pour Minimum Spanning Tree, 2 pour Bruteforce et 3 pour Branch And Bound.
+	\item \textbf{-g} : si l'option est donnée, l'interface graphique sera ouverte après calcul de la route.
+	\item \textbf{<nameFile.tsp>} : en dehors de ces options, le paramètre nécessaire pour le fonctionnement du programme est le fichier .tsp contenant la disposition des villes et leurs distances.
+\end{itemize}
+
+\section{Fonctionnement}
+
+Après avoir déterminés ce qu'il faut faire avec les options, il faut maintenant les utiliser. On commence par lire le fichier passé en paramètre au programme, puis en fonction de l'option \textbf{-a}, on choisit l'algorithme à utiliser. Après avoir calculer la route, on fait appel à l'interface graphique si l'option \textbf{-g} avait été donnée en paramètre.
+
+Dans ce cas, l'interface graphique va être appelée avec la route trouvée, mais aussi avec les villes et leurs coordonnées lues directement dans le fichier .tsp. A partir de là, l'interface graphique va effectuer une étape de mise à l'échelle du plan (si possible), puis rend un affichage du plan.

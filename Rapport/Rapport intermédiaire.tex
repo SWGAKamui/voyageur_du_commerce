@@ -1,0 +1,146 @@
+\documentclass[10pt,a4paper]{report}
+
+% Packages
+
+\usepackage{newcent}
+\usepackage[utf8]{inputenc}
+\usepackage[francais]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{color}
+\usepackage{caption}
+\usepackage[colorlinks=true, linkcolor=black]{hyperref}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+% Document information
+
+\author{Florian KAUDER - Kinda AL CHAHID - Amélie GUEMON - Lilian CHAMPROY}
+\title{EDD - Rapport}
+
+% Lst Parameters
+
+\definecolor{comment}{rgb}{0.0,0.1,0.0}
+\definecolor{keyword}{rgb}{0.0,0.0,0.5}
+\definecolor{string}{rgb}{0.0,0.0,0.9}
+\definecolor{number}{rgb}{0.4,0.4,0.4}
+\definecolor{identifier}{rgb}{0.1,0.6,0.2}
+\lstdefinestyle{customc}{
+language=C,
+basicstyle=\small,
+numbers=left,
+numberstyle=\tiny\color{number},
+numbersep=5pt,
+commentstyle=\color{comment},
+keywordstyle=\color{keyword},
+stringstyle=\color{string},
+identifierstyle=\color{identifier},
+literate=
+  {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+  {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+  {à}{{\`a}}1 {è}{{\'e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+  {À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+  {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+  {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+  {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+  {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+  {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+  {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+  {€}{{\EUR}}1 {£}{{\pounds}}1}
+
+\lstdefinestyle{classicstyle}{
+language=inform,
+basicstyle=\small,
+numbers=left,
+numberstyle=\tiny\color{black},
+numbersep=5pt,
+commentstyle=\color{black},
+keywordstyle=\color{black},
+stringstyle=\color{black},
+identifierstyle=\color{black},
+literate=
+  {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+  {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+  {à}{{\`a}}1 {è}{{\'e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+  {À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+  {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+  {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+  {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+  {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+  {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+  {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+  {€}{{\EUR}}1 {£}{{\pounds}}1}
+  
+% Caption Parameters
+
+\DeclareCaptionFont{white}{ \color{white} }
+\DeclareCaptionFormat{listing}{
+  \colorbox[cmyk]{0.43,0.35,0.35,0.01}{
+    \parbox{\textwidth}{\hspace{15pt}#1#2#3}
+  }
+}
+\captionsetup[lstlisting]{ format=listing, labelfont=white, textfont=white, singlelinecheck=false, margin=0pt, font={bf,footnotesize} }
+
+% Hyperref Parameters
+
+
+
+% Document
+
+\begin{document}
+
+% Page de garde
+\maketitle
+
+% Rapport
+
+\pagestyle{headings}
+\setcounter{tocdepth}{1}
+\tableofcontents
+
+\input{Introduction.tex}
+\newpage
+
+\input{Taches.tex}
+\newpage
+
+\input{GestionProjetGit.tex}
+\newpage
+
+\input{Compilation.tex}
+\newpage
+
+\input{Matrix.tex}
+\newpage
+
+\input{NearestNeighbour.tex}
+\newpage
+
+\input{MST.tex}
+\newpage
+
+\input{Bruteforce.tex}
+\newpage
+
+\input{BranchAndBound.tex}
+\newpage
+
+\input{Graphic.tex}
+\newpage
+
+\input{TSPReader.tex}
+\newpage
+
+\input{Integration.tex}
+\newpage
+
+\input{Conclusion.tex}
+\newpage
+
+\input{Annexes.tex}
+
+\end{document}

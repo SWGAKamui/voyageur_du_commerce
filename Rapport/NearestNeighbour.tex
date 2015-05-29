@@ -1,0 +1,55 @@
+\chapter{Heuristique simple - \textit{Nearest Neighbour}}
+
+\section{Algorithme}
+
+\begin{algorithm}
+\caption{Algorithme par \textit{Nearest Neighbour}}
+\begin{algorithmic}
+
+\Function{trouverRoute}{ref distanceVilles : matrice de décimaux}
+
+\State $i \gets 0$
+\State $tabChemin [0...nbVilles]$ 
+\State $indiceTabChemin \gets 0$
+
+\While{$!\Call{isEndOf}{tabChemin}$}
+	\State $distanceMin \gets 2*nbVilles$
+	\State $indiceMin \gets 0$
+	\State $colonne \gets 0$
+	\While{$colonne < nbVilles$}
+		\If{$(distanceVille[i][colonne] < distanceMin) \wedge (i!=colonne) \wedge (colonne+1\not\in tabChemin[0...indiceTabChemin][0...indiceTabChemin])$}
+			\State $distanceMin \gets distanceVilles[i][colonne]$
+			\State $incideMin \gets colonne$
+		\EndIf		
+		\State $colonne++$
+	\EndWhile
+	\State $tabChemin[indiceTabChemin]\gets indiceMin +1$
+	\State $indiceTabChemin++$
+	\State $i\gets indiceMin$
+\EndWhile
+
+\Return $tabChemin$
+\EndFunction
+ \end{algorithmic}
+\end{algorithm}
+
+L'algorithme se base principalement sur la recherche du point le plus proche.
+On part du premier point, on récupère le plus proche, puis on récupère le plus proche de ce dernier, et ainsi de suite ...
+
+\section{Implémentation et problèmes}
+
+L'implémentation du précédent algorithme est présent à l'annexe C.
+\par\bigskip
+Nous devions implémenter, lors du premier TP, la fonction \textit{NearestNeighbour}. Mais la fonction ne fonctionnait pas car, avant même de concevoir la partie algorithmique simple de \textit{NearestNeighbour}, nous cherchions déjà à essayer d'utiliser des fonctions de gestion de matrices.
+
+C'est pourquoi, \textit{NearestNeighbour} a été développé en utilisant une matrice rentrée en brut, ainsi que le test renvoyant le chemin (chemin exact car vérifié « manuellement »).
+Mais, à ce moment là, tout était encore codé en un unique fichier(header, client, fournisseur), et il a été difficile séparer tous les fichiers, car un soucis de déclaration de variables persistait (impossible de savoir s'il y avait une histoire de variable globale ou non). Cependant, après une intense phase de débogage, le problème a fini par être résolu.
+
+L'implémentation de \textit{NearestNeighbour} a ensuite été changée, de manière à utiliser le module \textit{Matrix} dans le code. La gestion de la mémoire est bonne sur le module \textit{NearestNeighbour}, toute mémoire allouée est libérée (\textit{vérifié par valgrid ./TestNearestNeighbour}).
+
+\section{Test}
+
+Le test de l'algorithme s'effectue via la comparaison entre le tableau de résultats qui devrait être trouvé et le tableau retourné par l'algorithme.
+
+\lstset{style=customc}
+\lstinputlisting[caption=TestNearestNeighbour.c - Lignes 30 à 33, firstline=30, lastline= 33]{/home/amolith/Edd/Projet/Git/Edd_project/NearestNeighbour/TestNearestNeighbour.c}

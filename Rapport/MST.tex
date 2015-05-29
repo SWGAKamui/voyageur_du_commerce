@@ -1,0 +1,92 @@
+\chapter{Algorithme d'approximation - \textit{Minimum Spanning Tree}}
+
+
+Dans le cas du \textit{Minimum Spanning Tree}, plusieurs algorithmes existent déjà. Il fallait dans un premier temps définir quel algorithme utiliser.
+
+\section{Algorithme}
+
+Le choix s'est fait entre les algorithmes suivants :
+\begin{itemize}
+	\item L'algorithme de Prim
+	\item L'algorithme de Kruskal
+	\item L'algorithme de Borůvka
+\end{itemize}
+
+Parmi ces trois algorithmes, celui retenu est celui de Kruskal. Beaucoup plus simple à coder et tout aussi efficace.
+L'algorithme de Kruskal consiste à choisir les arêtes de poids le plus faible sans qu'aucun cycle ne soit créé. Le résultat est un arbre, comprenant tous les sommets, de poids minimal.
+
+\begin{algorithm}
+\caption{Algorithme de Kruskal}
+\begin{algorithmic}
+
+
+\Function{trouverRouteOptimale}{ref G : graphe, ref poidsTab : matrice de décimaux}
+
+\State $E : ensemble vide$
+\State $a : arete$
+
+\State \Call{trierAreteOrdreCroissant}{G, poidsTab}
+\State $a \gets \Call{prendreProchaineArete}{G}$
+\While {$a != NULL$}
+	\If {$!(\Call{creeUnCycle}{E, a})$}
+		\State \Call{ajouterArete}{E, a}
+	\EndIf
+	\State $ a \gets \Call{prendreProchaineArete}{G}$
+\EndWhile
+\State \Return $E$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\section{Implémentation}
+
+Pour pouvoir utiliser les "arêtes", il a fallu créer une structure \textit{Edge} qui prend trois int : deux pour les sommets et un autre pour contenir le poids de l'arête.
+
+\subsection{Implémentation simple de l'algorithme}
+
+Ensuite, il a fallut implémenter l'algorithme de Kruskal. Pour celà, il faut d'abord commencer par appeler la fonction \textit{parcoursMST()}. Celle-ci va, à son tour, appeler la fonction \textit{readMatrixAndCreateEdges()} qui permet de créer un tableau contenant toutes les arêtes possibles. Le tableau, pendant son remplissage, est automatiquement trié.
+
+La fonction va alors récupérer les arêtes via \textit{getNextEdge()}. Celle-ci récupère les arêtes du tableau triées par ordre de poids croissant, et vérifies à l'aide de \textit{isCyclic()} si, en ajoutant la nouvelle arête à la route, un cycle se crée.
+
+\subsection{Implémentation de la recherche de cycle}
+
+L'algorithme utilise la recherche de cycle dans un graphe. Pour effectuer cette recherche, deux fonctions sont utilisées :
+\begin{itemize}
+	\item \textit{isCyclic()}
+	\item \textit{searchRecur()}
+\end{itemize}
+
+La première fonction est la fonction de base. Elle commence par ajouter l'arête à tester dans la route, puis elle va tester tous les chemins possibles à partir des arêtes contenus dans la route. 
+
+La recherche est effectuée comme si le graphe était non orienté. Dans le cas d'une arête \textit{(u,v)}, la fonction va vérifier une à une toutes les villes possibles si il existe une arête avec \textit{u} dans la route étant la ville, puis de même avec \textit{v}.
+Si on trouve une arête répondant à ce critère, on considère que la ville est traversée, puis on fait appel à \textit{searchRecur()} pour tester toutes les possibilités de chemin commençant par la précédente arête.
+
+La deuxième fonction suit le même raisonnement que la première, excepté qu'elle est récursive et qu'elle vérifie que la prochaine ville qui va être visité ne l'a pas déjà été. 
+
+\section{Complexité}
+
+La première fonction va être effectuée, dans le pire des cas, le nombre d'arêtes de la matrice. Une optimisation a été effectuée, qui a été de prendre uniquement les arêtes au-dessus de la diagonale de 0 dans la matrice. Soit \textit{t} la taille de la matrice, on arrive donc à :
+\begin{equation}
+nbAretesPossibles = t^2 \rightarrow \overset{t}{\underset{i=0}{\sum}}i \rightarrow \frac{n(n-1)}{2}
+\end{equation}
+De plus, on va vérifier à chaque fois si un cycle existe en ajoutant l'arête. Ce qui signifie que nous obtenons :
+\begin{equation}
+Complexite = nbAretesPossibles = nbVerificationCycles
+\end{equation}
+Pour chaque vérification de cycle, on effectue au maximum \textit{i} fois le nombre de valeurs de villes possibles, et \textit{i}*\textit{j} fois le nombre d'arête dans la route actuelle. On trouve donc :
+\begin{equation}
+Complexite = nbVerificationCycles * nbVillesPossibles * nbAreteActuelles
+\end{equation}
+De la même façon, \textit{searchRecur()} peut être appelée au maximum \textit{i} fois le nombre d'arêtes dans la route, et à chaque appel, elle appelle \textit{i} fois via la boucle \textit{for}. Ce qui donne :
+\begin{equation}
+Complexite = nbVerificationCycles * nbVillesPossibles * nbAreteActuelles^3 
+\end{equation}
+En considérant que le nombre d'arêtes actuellement dans la route est quasiment à son maximum, soit \textit{n} le nombre d'arête de la route, et \textit{v} le nombre de villes possibles, on trouve finalement que, au maximum, la complexité est de :
+\begin{equation}
+Complexite = v * n^3 * \frac{n(n-1)}{2}
+\end{equation}
+On peut noter que le nombre de villes possible est équivalent au nombre d'arêtes de la route, d'où, dans le \underline{pire} des cas :
+\begin{equation}
+Complexite = n * n^3 * \frac{n(n-1)}{2} = O(n^5)
+\end{equation}
+Cette complexité est néanmoins améliorable, en supprimant notamment l'utilisation de la variable \textit{nbVillesPossibles} dans la fonction \textit{isCyclic()}.
