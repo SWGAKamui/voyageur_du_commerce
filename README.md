@@ -20,7 +20,7 @@ Pour le fonctionnement de l'interface graphique, il est nécessaire d'avoir inst
   - [x] Optionnel - Réaliser une interface graphique
 
 ### Personnes composant le groupe de projet
-  - Kinda Al Chahid (DakKamui)
+  - Kinda (SWGAKamui)
   - Florian Kauder (Lumi-Bjorn)
   - Amélie Guemon (pouwapouwa)
   - Lilian Champroy (PurpleSeaSigma)
